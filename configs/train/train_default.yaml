@@ -1,0 +1,18 @@
+# Training settings
+n_epochs: 300  # 1000
+batch_size: 512
+lr: 0.0002
+clip_grad: null          # float, null to disable
+save_model: True
+num_workers: 0
+# ema_decay: 0.999  # 0          # 'Amount of EMA decay, 0 means off表示禁用EMA.  A reasonable value  is 0.999.'
+progress_bar: true
+weight_decay: 1e-12
+optimizer: adamw # adamw,nadamw,nadam => nadamw for large batches
+seed: 0
+
+# 时间扰动方式，一般用于采样顺序或轨迹合成
+# "identity"：不做任何扰动   "poly_inc"：多项式递增扰动（前慢后快）
+time_distortion: "identity"  # 'uniform', 'cosine', poly_inc, poly_dec
+# ce_tracker_min_samples: 100  # 0, 1, 2, ...
+mode_s: -0.54

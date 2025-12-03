@@ -1,0 +1,41 @@
+# General settings
+name: 'graph-tf-model'      # Warning: 'debug' and 'test' are reserved name that have a special behavior
+gpus: 1                     # Multi-gpu is not implemented on this branch
+
+# 是否从 checkpoint 恢复训练，如果是，填的是 ckpt 文件的路径。为空表示从头训练。
+resume:  null           # If resume, path to ckpt file from outputs directory in main directory
+# 是否只进行测试（不训练）。如果设置为 ckpt 路径，则加载该模型并进行测试。  null
+test_only: null
+  #"/home/sjl/output_defog/outputs/2025-04-16/13-59-54-qm9-graph-tf-model/checkpoints/last.ckpt"         # Use absolute path
+
+check_val_every_n_epochs: 2  # 5
+sample_every_val: 10           # 每做 4 次验证时才生成样本
+val_check_interval: null      # 每个 epoch 的训练步骤中，验证的频率（如 0.25 表示每训练 25% 就验证一次）。null 表示只按 epoch 控制
+samples_to_generate: 512       # We advise to set it to 2 x batch_size maximum 每次验证时生成的样本数（建议不超过2bs）
+samples_to_save: 20          #  每次验证保存几个样本
+chains_to_save: 1          # 保存多少条 GIF 动画链（轨迹）
+log_every_steps: 50        # 每训练多少步打印一次日志
+number_chain_steps: 50        # Number of frames in each gif  每个轨迹链包含的步数
+
+generated_path: null
+final_model_samples_to_generate: 10000      # 最后模型生成多少个样本
+final_model_samples_to_save: 30             # 最终保存多少个样本用于可视化或评估。
+final_model_chains_to_save: 20
+#final_model_samples_to_generate: 3
+#final_model_samples_to_save: 2
+#final_model_chains_to_save: 1
+# 多组采样的次数（例如用不同随机种子采样 N 次再平均）。用于提升采样稳定性或评估性能。
+num_sample_fold: 2
+
+search: False  # 搜索生成图结构的方式，condition，'step'：逐步生成，rdb
+
+# pipeline based configurations 轨迹
+# ce_trajectory: False  # 是否启用交叉熵轨迹（cross entropy trajectory）分析
+# eigen_trajectory: False  # 是否启用特征值轨迹分析。
+adapt_every_val: ${general.sample_every_val}  # dummy for now  控制 每多少个 validation 轮数执行一次噪声调节/动态调度
+adapt_time: 3
+
+# conditional generation
+conditional: False
+target: 'mu'  # 'mu' or 'homo'  指定回归的目标属性（比如电偶极矩 mu、HOMO 能级 homo
+guidance_weight: 1.2  # w = 1.0：那就只是普通条件模型，没有额外引导  原 2.0

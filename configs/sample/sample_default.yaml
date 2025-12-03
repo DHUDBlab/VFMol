@@ -1,0 +1,18 @@
+# balanced rate matrice settings
+eta: 0.
+omega: 0.
+rdb: 'general'            # general | column | entry
+rdb_crit: "x_0"           # max_marginal | x_t | p_x1_g_xt | x_1 | p_xt_g_x1 | p_xtdt_g_xt | x_0 | xhat_t
+                          # abs_state
+# generation settings
+sample_steps: 1000
+discretization: euler     # euler
+# 采样阶段 用来控制模型怎么用（在哪些时间点做预测）
+time_schedule: 'uniform'  # logitnormal， # uniform | increasing | decreasing | convex | concave
+# sample_x1: True
+# t* = f(t) 训练阶段 用来控制模型学什么（关注哪些时间区域）
+time_distortion: "identity"     # 'uniform', 'cosine', poly_inc, poly_dec
+
+target_guided: False
+guided_weight: 0.0
+x1_parameterization: False
